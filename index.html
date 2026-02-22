@@ -37,16 +37,25 @@
       background: var(--cream);
       color: var(--text-dark);
       overflow-x: hidden;
+      padding-top: 60px;
     }
 
     /* ── HERO ── */
     .hero {
       background: var(--navy);
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 60px);
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
 
     .hero::before {
@@ -74,7 +83,7 @@
     }
 
     .hero-left {
-      padding: 80px 60px 80px 80px;
+      padding: 80px 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -190,7 +199,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 80px 80px 80px 40px;
+      padding: 80px 40px;
       z-index: 1;
       animation: fadeUp 0.8s 0.4s ease both;
     }
@@ -247,8 +256,10 @@
     /* ── NAV ── */
     nav {
       background: var(--navy);
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      width: 100%;
       z-index: 100;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -878,7 +889,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .hero {
+      .hero-inner {
         grid-template-columns: 1fr;
       }
 
@@ -917,70 +928,189 @@
         padding: 60px 24px;
       }
     }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 24, 40, 0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 16px;
+      padding: 40px;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-light);
+      cursor: pointer;
+      padding: 5px;
+      line-height: 1;
+    }
+
+    .modal-title {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 14px;
+      color: var(--text-mid);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 15px;
+      color: var(--text-dark);
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(200, 136, 58, 0.1);
+    }
+
+    .modal-submit {
+      width: 100%;
+      background: var(--amber);
+      color: #fff;
+      border: none;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.25s;
+    }
+
+    .modal-submit:hover {
+      background: var(--amber-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(200, 136, 58, 0.3);
+    }
   </style>
 </head>
 
 <body>
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-left">
-      <div class="brand-tag">다다름 대표 프로그램</div>
-      <h1 class="hero-title">
-        팀장 리더십<br>
-        <em>역량교육 과정</em>
-      </h1>
-      <p class="hero-desc">
-        평가가 아닌 <strong style="color:rgba(255,255,255,0.9)">자기인식</strong>과 <strong
-          style="color:rgba(255,255,255,0.9)">구조화된 성찰</strong>을 목적으로 설계된<br>
-        Development Center(DC) 기반의 팀장 리더십 역량교육 프로그램입니다.<br><br>
-        모의과제 실습과 전문 퍼실리테이터의 역량 피드백을 통해<br>
-        리더로서 '나'를 발견하고 행동변화를 이끌어냅니다.
-      </p>
-      <div class="hero-cta">
-        <a href="#contact" class="btn-primary">도입 문의하기 →</a>
-        <a href="#program" class="btn-ghost">프로그램 보기</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-stats-grid">
-        <div class="stat-card featured">
-          <div class="stat-num">4.7<span style="font-size:22px;opacity:0.5">/5.0</span></div>
-          <div class="stat-label">전반적 교육 만족도 (5점 만점)</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">4.9</div>
-          <div class="stat-label">강사 전문성 점수</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">2일</div>
-          <div class="stat-label">총 13시간 집중 교육</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">4</div>
-          <div class="stat-label">핵심 리더십 역량</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">42%</div>
-          <div class="stat-label">교육 확대 요구 응답 비율</div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
       <a href="#" class="nav-logo">다다름</a>
       <ul class="nav-links">
-        <li><a href="#philosophy">교육 철학</a></li>
+        <li><a href="#philosophy">교육철학</a></li>
         <li><a href="#program">프로그램 구성</a></li>
-        <li><a href="#competency">학습 역량</a></li>
-        <li><a href="#results">운영 성과</a></li>
-        <li><a href="#contact">도입 문의</a></li>
+        <li><a href="#competency">학습역량</a></li>
+        <li><a href="#results">운영성과</a></li>
+        <li><a href="#contact">도입문의</a></li>
       </ul>
     </div>
   </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="brand-tag">다다름 대표 프로그램</div>
+        <h1 class="hero-title">
+          팀장 리더십<br>
+          <em>역량교육 과정</em>
+        </h1>
+        <p class="hero-desc">
+          평가가 아닌 <strong style="color:rgba(255,255,255,0.9)">자기인식</strong>과 <strong
+            style="color:rgba(255,255,255,0.9)">구조화된 성찰</strong>을 목적으로 설계된<br>
+          Development Center(DC) 기반의 팀장 리더십 역량교육 프로그램입니다.<br><br>
+          모의과제 실습과 전문 퍼실리테이터의 역량 피드백을 통해<br>
+          리더로서 '나'를 발견하고 행동변화를 이끌어냅니다.
+        </p>
+        <div class="hero-cta">
+          <a href="javascript:void(0)" class="btn-primary" onclick="openModal()">도입 문의하기 →</a>
+          <a href="#program" class="btn-ghost">프로그램 보기</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-stats-grid">
+          <div class="stat-card featured">
+            <div class="stat-num">4.7<span style="font-size:22px;opacity:0.5">/5.0</span></div>
+            <div class="stat-label">전반적 교육 만족도 (5점 만점)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">4.9</div>
+            <div class="stat-label">강사 전문성 점수</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">2일</div>
+            <div class="stat-label">총 13시간 집중 교육</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">4</div>
+            <div class="stat-label">핵심 리더십 역량</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">42%</div>
+            <div class="stat-label">교육 확대 요구 응답 비율</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- PHILOSOPHY -->
   <div class="philosophy-section" id="philosophy">
@@ -1277,9 +1407,8 @@
     <div class="section-label" style="color:var(--amber)">도입 문의</div>
     <h2 class="section-title" style="color:#fff; max-width:560px; margin: 0 auto 0;">귀 기관의 팀장 리더십,<br>다다름과 함께 시작하세요</h2>
     <p>교육 도입 컨설팅부터 맞춤형 역량모델 설계, 모의과제 개발까지 — 귀 기관의 상황에 맞는 최적의 방안을 제안드립니다.</p>
-    <a href="/cdn-cgi/l/email-protection#a8c2c2c2e8ccc9ccc9dacdddc586c3da" class="btn-primary"
-      style="margin: 0 auto; display:inline-flex;">
-      문의하기 — <span class="__cf_email__" data-cfemail="e68c8c8ca6828782879483938bc88d94">[email&#160;protected]</span>
+    <a href="javascript:void(0)" class="btn-primary" style="margin: 0 auto; display:inline-flex;" onclick="openModal()">
+      문의하기
     </a>
     <div style="margin-top: 24px; color: rgba(255,255,255,0.4); font-size: 14px;">
       담당 실장 유혜진 &nbsp;|&nbsp; 010-6391-8708
@@ -1292,8 +1421,62 @@
     <div style="margin-top:8px">본 자료의 무단 복제 및 배포를 금합니다.</div>
   </footer>
 
+  <!-- MODAL STRUCTURE -->
+  <div class="modal-overlay" id="inquiryModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3 class="modal-title">도입 문의하기</h3>
+      <p class="modal-desc">상담을 위해 필요한 정보를 입력해 주세요.<br>담당자가 확인 후 빠른 시일 내에 연락드리겠습니다.</p>
+
+      <form id="inquiryForm" onsubmit="handleInquirySubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="company">회사명</label>
+          <input type="text" id="company" class="form-input" placeholder="정확한 회사명을 입력해주세요" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="name">담당자명</label>
+          <input type="text" id="name" class="form-input" placeholder="성함을 입력해주세요" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">휴대폰번호</label>
+          <input type="tel" id="phone" class="form-input" placeholder="010-0000-0000" required>
+        </div>
+        <button type="submit" class="modal-submit">신청하기</button>
+      </form>
+    </div>
+  </div>
+
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
+    // Modal Functions
+    function openModal() {
+      const modal = document.getElementById('inquiryModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('inquiryModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function handleInquirySubmit(event) {
+      event.preventDefault();
+      const company = document.getElementById('company').value;
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+
+      alert(`${name}님, 문의가 접수되었습니다.\n회사명: ${company}\n연락처: ${phone}\n\n조만간 연락드리겠습니다.`);
+      closeModal();
+      event.target.reset();
+    }
+
+    // Close modal on overlay click
+    document.getElementById('inquiryModal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+
     // Intersection Observer for fade-in
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
